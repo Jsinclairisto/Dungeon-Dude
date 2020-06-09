@@ -5,8 +5,11 @@ public class PlayerMovement : MonoBehaviour
 {
     [SerializeField] private float _speed;
     [SerializeField]private float _jumpForce;
+    public GameObject deathEffect;
+
     public Rigidbody2D rb;
     public Animator animator;
+    public float shakeAmount;
     private BoxCollider2D boxCollider;
     public Transform groundCheckPoint;
     public float groundCheckRadius;
@@ -15,8 +18,6 @@ public class PlayerMovement : MonoBehaviour
 
     void Start()
     {
-        // currentPosition = new Vector2(0,0);
-        // transform.position = currentPosition;   
         rb = GetComponent<Rigidbody2D>();
         boxCollider = GetComponent<BoxCollider2D>();
     }
@@ -59,16 +60,11 @@ public class PlayerMovement : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D col)
     {
-        if(col.CompareTag("DeathCollide"))
+        if(col.CompareTag("DeathCollide")) 
         {
             Destroy(this.gameObject);
-            //Instantiate(explodeEffect, transform.position, Quaternion.identity);
+            Instantiate(deathEffect, transform.position, Quaternion.identity);
             Debug.Log("Collided");
         }
     }
-    private void Die()
-    {
-        
-    }
-    
 }
