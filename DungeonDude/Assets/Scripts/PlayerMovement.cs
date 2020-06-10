@@ -6,10 +6,10 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float _speed;
     [SerializeField]private float _jumpForce;
     public GameObject deathEffect;
-
     public Rigidbody2D rb;
-    public Animator animator;
+    public Animator animator, camAnim;
     public float shakeAmount;
+    public AudioManager jumpSound;
     private BoxCollider2D boxCollider;
     public Transform groundCheckPoint;
     public float groundCheckRadius;
@@ -20,6 +20,7 @@ public class PlayerMovement : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         boxCollider = GetComponent<BoxCollider2D>();
+        jumpSound = FindObjectOfType<AudioManager>();
     }
 
     void Update()
@@ -34,6 +35,7 @@ public class PlayerMovement : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.Space) && isTouchingGround)
         {
             rb.AddForce(Vector2.up * _jumpForce, ForceMode2D.Impulse);
+            jumpSound.Play("jump");
         }
     }
 
@@ -42,9 +44,12 @@ public class PlayerMovement : MonoBehaviour
         if(isTouchingGround)
         {
             animator.SetBool("isJumping", false);
+            
         }else
         {   
             animator.SetBool ("isJumping", true);
+            
+            
         }
     }
     private void Flip(float horizontalMove)
@@ -63,8 +68,10 @@ public class PlayerMovement : MonoBehaviour
         if(col.CompareTag("DeathCollide")) 
         {
             Destroy(this.gameObject);
+            camAnim.SetBool("isDie", true);
+            FindObjectOfType<AudioManager>().Play("hurt");
             Instantiate(deathEffect, transform.position, Quaternion.identity);
-            Debug.Log("Collided");
+            Debug.Log("Collided"); 
         }
     }
 }
