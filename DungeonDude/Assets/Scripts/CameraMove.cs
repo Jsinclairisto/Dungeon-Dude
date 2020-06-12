@@ -7,14 +7,20 @@ public class CameraMove : MonoBehaviour
     // Start is called before the first frame update
 
     //public Camera mainCamera;
+    public PlayerMovement player;
     public float speed;
-
+    public bool isAlive = true;
     void Update()
     {
         transform.Translate(Vector3.right * speed * Time.deltaTime);
-        speed += 0.001f;
-        Debug.Log("Speed: " + speed);
-        
+        if(isAlive){
+            speed += 0.001f;
+        }
+        else
+        {
+            speed = 0f;
+        }
+
     }
 
 }
