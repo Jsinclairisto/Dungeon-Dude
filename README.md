@@ -1,2 +1,2 @@
 # Dungeon-Dude-
-Endless runner/platformer
+2D skill-based Platformer
